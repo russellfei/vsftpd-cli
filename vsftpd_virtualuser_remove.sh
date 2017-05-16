@@ -10,9 +10,7 @@
 #       Alain Reguera Delgado <alain.reguera@gmail.com>
 #
 # Released under the GPL License- http://www.fsf.org/licensing/licenses/gpl.txt
-# May 12, 2017
-# Updated by Feng Fei <feifeng@superengine.com.cn>
-# ALL RIGHTS RESERVED
+
 
 #
 # Initialization
@@ -132,7 +130,7 @@ if [ "$1" ];then
     if [ "$USERNAMEOK" == "YES" ];then
     removeUser;
     echo '-------------------------------------------------------------------'
-    /sbin/service vsftpd reload
+    #/sbin/service vsftpd restart 
     echo '-------------------------------------------------------------------'
     else
        echo "   ATTENTION : This user can't be removed. It is an invalid user."
@@ -146,6 +144,9 @@ fi
 #
 # Interactive
 #
+printf " Current users are: "
+${LOCALPATH}/vsftpd_virtualuser_info.sh
+printf " [Warning] If the username you specified is not in that list, we will still delete relevant directories at FTP path "
 printf " Enter username (lowercase): "
 read USERNAME
 
@@ -165,7 +166,7 @@ if [ "$USERNAMEOK" == "YES" ];then
     fi
     removeUser;
     echo '-------------------------------------------------------------------'
-    /sbin/service vsftpd restart
+    #/sbin/service vsftpd restart
     echo '-------------------------------------------------------------------'
 
 else

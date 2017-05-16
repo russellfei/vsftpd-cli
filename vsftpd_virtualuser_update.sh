@@ -10,13 +10,12 @@
 #       Alain Reguera Delgado <alain.reguera@gmail.com>
 #
 # Released under the GPL License- http://www.fsf.org/licensing/licenses/gpl.txt
-# May 12, 2017
-# Updated by Feng Fei <feifeng@superengine.com.cn>
-# ALL RIGHTS RESERVED
+
 #
 # Initialize some variables
 #
 HOMEDIR=/var/ftp/virtual_users
+LOCALPATH=`pwd`
 FTPCONF=/etc/vsftpd
 SHELL=/sbin/nologin
 CHMOD=750
@@ -89,6 +88,11 @@ if [ "$PACKISMISSING" != "" ];then
 fi
 
 #
+# List current virtual users
+#
+${LOCALPATH}/vsftpd_virtualuser_info.sh
+
+#
 # Get user information
 #
 getUsername;
@@ -140,5 +144,5 @@ db_load -T -t hash -f $ACCOUNTSDB_TMP $ACCOUNTSDB_DB
 
 # Restart vsftpd after user addition.
 echo '-------------------------------------------------------------------'
-/sbin/service vsftpd restart
+#/sbin/service vsftpd restart
 echo '-------------------------------------------------------------------'

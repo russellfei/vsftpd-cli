@@ -10,15 +10,13 @@
 #       Alain Reguera Delgado <alain.reguera@gmail.com>
 #
 # Released under the GPL License- http://www.fsf.org/licensing/licenses/gpl.txt
-# May 12, 2017
-# Updated by Feng Fei <feifeng@superengine.com.cn>
-# ALL RIGHTS RESERVED
+
 #
 # Initialization
 #
 IP_Address="`( /sbin/ifconfig | head -2 | tail -1 | awk '{ print $2; }' | tr --delete [a-z]:)`"
-#LOCALPATH=`pwd`
-LOCALPATH=/home/vsftp/
+LOCALPATH=`pwd`
+#LOCALPATH=/home/vsftp/
 #
 # Add some presentation :)
 #
@@ -134,7 +132,12 @@ printf ' Setting up SELinux Boolean (allow_ftpd_anon_write 1) ... '
 /usr/sbin/setsebool -P allow_ftpd_anon_write 1
 printf "Done.\n"
 
+if [[ $( ps -e -U root|grep vsftpd|awk '{print $4}' ) = 'vsftpd' ]]
+then
+    systemctl start vsftpd.service
+    echo 'vsftpd is running'
+fi
 #
 # Add first ftp virtual user
 #
-${LOCALPATH}/vsftpd_virtualuser_add.sh
+#${LOCALPATH}/vsftpd_virtualuser_add.sh

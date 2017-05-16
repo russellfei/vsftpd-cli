@@ -10,13 +10,11 @@
 #       Alain Reguera Delgado <alain.reguera@gmail.com>
 #
 # Released under the GPL License- http://www.fsf.org/licensing/licenses/gpl.txt
-# May 12, 2017
-# Updated by Feng Fei <feifeng@superengine.com.cn>
-# ALL RIGHTS RESERVED
+
 #
 # Initialize some variables
 #
-LOCALPATH=/home/vsftp
+LOCALPATH=`pwd`
 SHELL=/sbin/nologin
 FTPCONF=/etc/vsftpd
 HOMEDIR=/var/ftp/virtual_users
@@ -178,5 +176,6 @@ fi
 
 # Restart vsftpd after user addition.
 echo '-------------------------------------------------------------------'
-/sbin/service vsftpd restart
+#/sbin/service vsftpd restart
+echo 'user add complete'
 echo '-------------------------------------------------------------------'

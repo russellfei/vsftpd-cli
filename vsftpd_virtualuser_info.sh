@@ -10,9 +10,7 @@
 #       Alain Reguera Delgado <alain.reguera@gmail.com>
 #
 # Released under the GPL License- http://www.fsf.org/licensing/licenses/gpl.txt
-# May 12, 2017
-# Updated by Feng Fei <feifeng@superengine.com.cn>
-# ALL RIGHTS RESERVED
+
 #
 # Initializations
 #
