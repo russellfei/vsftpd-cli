@@ -17,6 +17,7 @@
 #
 HOMEDIR=/var/ftp/virtual_users
 FTPCONF=/etc/vsftpd
+LOCALPATH=`pwd`
 
 if [ -f $FTPCONF/accounts.tmp ];then
     ACCOUNTDB_TOTALLINES=`grep '.' -c $FTPCONF/accounts.tmp`

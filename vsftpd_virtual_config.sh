@@ -77,7 +77,7 @@ if [ /usr/sbin/selinuxenabled ];then
     printf "Done.\n"
 fi
 
-if [[ $( ps -e -U root|grep vsftpd|awk '{print $4}' ) = 'vsftpd' ]]
+if [[ $( ps -e -U root|grep vsftpd|awk '{print $4}' ) != 'vsftpd' ]]
 then
     systemctl start vsftpd.service
     echo 'vsftpd is running'

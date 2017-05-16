@@ -132,7 +132,7 @@ printf ' Setting up SELinux Boolean (allow_ftpd_anon_write 1) ... '
 /usr/sbin/setsebool -P allow_ftpd_anon_write 1
 printf "Done.\n"
 
-if [[ $( ps -e -U root|grep vsftpd|awk '{print $4}' ) = 'vsftpd' ]]
+if [[ $( ps -e -U root|grep vsftpd|awk '{print $4}' ) != 'vsftpd' ]]
 then
     systemctl start vsftpd.service
     echo 'vsftpd is running'
