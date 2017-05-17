@@ -146,7 +146,7 @@ fi
 # Interactive
 #
 printf " Current users are: "
-${LOCALPATH}/vsftpd_virtualuser_info.sh
+${LOCALPATH}/vsftpd_virtualuser_query.sh
 printf " [Warning] If the username you specified is not in that list, we will still delete relevant directories at FTP path "
 printf " Enter username (lowercase): "
 read USERNAME

@@ -11,6 +11,7 @@
 #
 # Released under the GPL License- http://www.fsf.org/licensing/licenses/gpl.txt
 
+#./vsftpd_virtualuser_add.sh cgy 123456 chenguanyi N
 #
 # Initialize some variables
 #
@@ -18,6 +19,10 @@ LOCALPATH=`pwd`
 SHELL=/sbin/nologin
 FTPCONF=/etc/vsftpd
 HOMEDIR=/var/ftp/virtual_users
+_USERNAME=$1
+_PASSWORD=$2
+_FULLNAME=$3
+_USERSTATUS=$4
 
 if [ -f $FTPCONF/accounts.tmp ];then
     ACCOUNTDB_TOTALLINES=`grep '.' -c $FTPCONF/accounts.tmp`
@@ -72,10 +77,7 @@ function checkNewUser_Homedir () {
     fi
 }
 
-function getUsername () {
-
-    printf " Enter Username (lowercase)      : "
-    read USERNAME
+function checkUsername () {
 
     checkNewUser_Existence;
     checkNewUser_Availability;
@@ -83,7 +85,6 @@ function getUsername () {
 
     if [ "$USERNAMEOK" == "NO" ];then
         echo "  --> Invalid ftp virtual user. Try another username."
-        getUsername;
     fi
 
 }
@@ -91,9 +92,9 @@ function getUsername () {
 #
 # Add some presentation :)
 #
-clear;
-echo " vsftpd 2.0.5 -> Virtual Users -> New User"
-echo '-------------------------------------------------------------------'
+#clear;
+#echo " vsftpd 2.0.5 -> Virtual Users -> New User"
+#echo '-------------------------------------------------------------------'
 
 #
 # Check dependencies
@@ -115,20 +116,28 @@ if [ "$PACKISMISSING" != "" ];then
     exit;
 fi
 
-#
-# Get user information
-#
-getUsername;
-printf " Enter Password (case sensitive) : "
-read PASSWORD
-printf " Enter Comment(user's full name) : "
-read FULLNAME
-printf " Account disabled ? (y/N)        : "
-read USERSTATUS
+if [[ -n "$_USERNAME" ]]; then
+    # Not-interactive get user information
+    USERNAME=$_USERNAME
+    checkUsername
+    PASSWORD=$_PASSWORD
+    FULLNAME=$_FULLNAME
+    USERSTATUS=$_USERSTATUS
+else
+    # Get user information
+    printf " Enter Username (lowercase)      : "
+    read USERNAME
+    checkUsername
+    printf " Enter Password (case sensitive) : "
+    read PASSWORD
+    printf " Enter Comment(user's full name) : "
+    read FULLNAME
+    printf " Account disabled ? (y/N)        : "
+    read USERSTATUS
+fi
 echo " Home directory location         : ${HOMEDIR}/$USERNAME " 
 echo " Home directory permissions      : $USERNAME.$USERNAME | 750 | public_content_rw_t"
 echo " Login Shell                     : $SHELL "
-
 #
 # Create specific user configuration, based on 
 # vsftpd_virtualuser_config.tpl file.
@@ -175,7 +184,7 @@ fi
 /usr/bin/chcon -t public_content_rw_t $HOMEDIR/$USERNAME
 
 # Restart vsftpd after user addition.
-echo '-------------------------------------------------------------------'
+#echo '-------------------------------------------------------------------'
 #/sbin/service vsftpd restart
-echo 'user add complete'
-echo '-------------------------------------------------------------------'
+#echo 'user add complete'
+#echo '-------------------------------------------------------------------'

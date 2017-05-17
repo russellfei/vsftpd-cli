@@ -22,6 +22,10 @@ CHMOD=750
 SELCONTEXT=public_content_rw_t
 ACCOUNTSDB_TMP=$FTPCONF/accounts.tmp
 ACCOUNTSDB_DB=$FTPCONF/accounts.db
+_USERNAME=$1
+_PASSWORD=$2
+_FULLNAME=$3
+_USERSTATUS=$4
 
 if [ -f $FTPCONF/accounts.tmp ];then
     ACCOUNTDB_TOTALLINES=`grep '.' -c $FTPCONF/accounts.tmp`
@@ -87,21 +91,26 @@ if [ "$PACKISMISSING" != "" ];then
     exit;
 fi
 
-#
-# List current virtual users
-#
-${LOCALPATH}/vsftpd_virtualuser_info.sh
-
-#
-# Get user information
-#
-getUsername;
-printf " Enter Password (case sensitive) : "
-read PASSWORD
-printf " Enter Comment(user's full name) : "
-read FULLNAME
-printf " Account disabled ? (y/N)        : "
-read USERSTATUS
+if [[ -n "$_USERNAME" ]]; then
+    # Not-interactive get user information
+    USERNAME=$_USERNAME
+    checkUsername
+    PASSWORD=$_PASSWORD
+    FULLNAME=$_FULLNAME
+    USERSTATUS=$_USERSTATUS
+else
+    # Get user information
+    printf " Enter Username (lowercase)      : "
+    read USERNAME
+    checkUsername
+    printf " Enter Password (case sensitive) : "
+    read PASSWORD
+    printf " Enter Comment(user's full name) : "
+    read FULLNAME
+    printf " Account disabled ? (y/N)        : "
+    read USERSTATUS
+fi
+e
 echo " Home directory location         : ${HOMEDIR}/$USERNAME " 
 echo " Home directory permissions      : $USERNAME.$USERNAME | 750 | public_content_rw_t"
 echo " Login Shell                     : $SHELL "
